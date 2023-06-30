@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Simple Grid Example</title>
+  <title>Sorry Jesus</title>
   <style>
-    .container {
-      display: grid;
-      grid-template-columns: repeat(5, 50px); /* Adjust the size as needed */
-      grid-template-rows: repeat(5, 50px); /* Adjust the size as needed */
-      gap: 2px; /* Adjust the gap between squares as needed */
+    #grid {
+      display: inline-grid;
+      grid-template-columns: repeat(5, 50px);
+      grid-template-rows: repeat(5, 50px);
+      gap: 2px;
+      border: 1px solid black; /* Add black outline */
     }
 
     .square {
-      border: 1px solid black;
+      width: 50px;
+      height: 50px;
     }
 
     .red {
@@ -22,37 +24,76 @@
       background-color: blue;
     }
 
-    .button-container {
-      margin-top: 10px;
+    .gray {
+      background-color: gray;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Generate the grid dynamically using JavaScript -->
-  </div>
-
-  <div class="button-container">
-    <button onclick="generatePattern()">Go!</button>
-  </div>
+  <h1>Sorry Jesus</h1>
+  <div id="grid"></div>
+  <button id="goButton" onclick="generateColors()">Go!</button>
+  <div id="countdown"></div>
+  <button id="revealButton" style="display: none;" onclick="revealColors()">Reveal</button>
 
   <script>
-    function generatePattern() {
-      var container = document.querySelector(".container");
-      container.innerHTML = "";
+    var squares = [];
+    var originalColors = [];
+
+    // Generate random colors for the grid
+    function generateColors() {
+      var grid = document.getElementById('grid');
+      grid.innerHTML = '';
 
       for (var i = 0; i < 25; i++) {
-        var square = document.createElement("div");
-        square.classList.add("square");
-
-        // Generate a random number (0 or 1)
-        var random = Math.floor(Math.random() * 2);
-
-        // Set the class based on the random number
-        square.classList.add(random === 0 ? "red" : "blue");
-
-        container.appendChild(square);
+        var square = document.createElement('div');
+        square.classList.add('square');
+        var color = Math.random() < 0.5 ? 'red' : 'blue';
+        square.classList.add(color);
+        grid.appendChild(square);
+        squares.push(square);
+        originalColors.push(color);
       }
+
+      startCountdown();
+      document.getElementById('goButton').disabled = true;
+    }
+
+    // Start the countdown
+    function startCountdown() {
+      var countdown = document.getElementById('countdown');
+      var seconds = 10;
+      countdown.textContent = seconds;
+
+      var countdownInterval = setInterval(function() {
+        seconds--;
+        countdown.textContent = seconds;
+
+        if (seconds === 0) {
+          clearInterval(countdownInterval);
+          hideSquares();
+          document.getElementById('revealButton').style.display = 'block';
+        }
+      }, 1000);
+    }
+
+    // Hide the squares
+    function hideSquares() {
+      squares.forEach(function(square) {
+        square.classList.remove('red', 'blue');
+        square.classList.add('gray');
+      });
+    }
+
+    // Reveal the colors
+    function revealColors() {
+      squares.forEach(function(square, index) {
+        square.classList.remove('gray');
+        square.classList.add(originalColors[index]);
+      });
+
+      document.getElementById('revealButton').style.display = 'none';
+      document.getElementById('goButton').disabled = false;
     }
   </script>
 </body>
