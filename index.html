@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Grid Example</title>
+  <style>
+    .container {
+      display: grid;
+      grid-template-columns: repeat(5, 50px); /* Adjust the size as needed */
+      grid-template-rows: repeat(5, 50px); /* Adjust the size as needed */
+      gap: 2px; /* Adjust the gap between squares as needed */
+    }
+
+    .square {
+      border: 1px solid black;
+    }
+
+    .red {
+      background-color: red;
+    }
+
+    .blue {
+      background-color: blue;
+    }
+
+    .button-container {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Generate the grid dynamically using JavaScript -->
+  </div>
+
+  <div class="button-container">
+    <button onclick="generatePattern()">Go!</button>
+  </div>
+
+  <script>
+    function generatePattern() {
+      var container = document.querySelector(".container");
+      container.innerHTML = "";
+
+      for (var i = 0; i < 25; i++) {
+        var square = document.createElement("div");
+        square.classList.add("square");
+
+        // Generate a random number (0 or 1)
+        var random = Math.floor(Math.random() * 2);
+
+        // Set the class based on the random number
+        square.classList.add(random === 0 ? "red" : "blue");
+
+        container.appendChild(square);
+      }
+    }
+  </script>
+</body>
+</html>
